@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>追加</title>
+</head>
+<body>
+<h1>以下の内容を追加</h1>
+  <form th:action="add" th:method="post" th:object="${todo}">
+  <table>
+    <tr>
+      <td>ID</td>
+      <td>やること</td>
+      <td>期限</td>
+    </tr>
+    <tr>
+      <th><input type="number" th:field="*{id}"></th>
+      <th><input type="text" th:field="*{title}"></th>
+      <th><input type="date" th:field="*{deadLine}"></th>
+    </tr>
+  </table>
+  <input type="submit" value="追加">
+</form>
+</body>
+</html>
