@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>確認</title>
+</head>
+<body>
+	<h2>この項目を削除しますか？</h2>
+	<form th:action="@{/todo/confirm/{id}(id=*{id})}" th:method="delete"
+		th:object="${todo}">
+		<table>
+			<tr>
+				<th>やること</th>
+				<th>期限</th>
+			<tr>
+				<td><p th:text="*{title}"></p></td>
+				<td><p th:text="*{deadline}"></p></td>
+			</tr>
+		</table>
+		<input type="submit" value="削除">
+	</form>
+
+</body>
+</html>
