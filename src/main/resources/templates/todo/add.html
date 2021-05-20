@@ -2,34 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}">
 <title>追加</title>
 </head>
 <body>
-  <h2>以下の内容を追加</h2>
-  <form th:action="add" th:method="post" th:object="${todo}">
-    <table>
-      <tr>
-        <th>やること</th>
-        <th>期限</th>
-        <th>優先順位</th>
-      <tr>
-        <td><input type="text" th:field="*{title}"></td>
-        <td><input type="date" th:field="*{deadline}"></td>
-        <td><select th:field="*{priority}">
-            <option value="">---</option>
-				    <option th:value="1">★</option>
-				    <option th:value="2">★★</option>
-				    <option th:value="3">★★★</option>
-				    </select>
-			  </td>
-      </tr>
-      <tr>
-        <td><span th:if = "${#fields.hasErrors('title')}" th:errors = "*{title}"></span></td>
-        <td><span th:if = "${#fields.hasErrors('deadline')}" th:errors = "*{deadline}"></span></td>
-        <td><span th:if = "${#fields.hasErrors('priority')}" th:errors = "*{priority}"></span></td>
-      </tr>
-    </table>
-    <input type="submit" value="追加">
-  </form>
+	<div class="card text-center w-75">
+		<div class="card-header">以下の内容を追加</div>
+		<div class="card-body">
+			<form th:action="add" th:method="post" th:object="${todo}">
+
+				<div class="form-group row">
+					<label for="title" class="col-sm-3 col-form-label">やること</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" th:field="*{title}">
+						<span class="text-danger small float-left" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="deadline" class="col-sm-3 col-form-label">期限</label>
+					<div class="col-sm-6">
+						<input type="date" class="form-control" th:field="*{deadline}">
+						<span class="text-danger small float-left" th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}"></span>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="title" class="col-sm-3 col-form-label">優先順位</label>
+					<div class="col-sm-6">
+						<select class="custom-select" th:field="*{priority}">
+							<option value="">---</option>
+							<option th:value="1">★</option>
+							<option th:value="2">★★</option>
+							<option th:value="3">★★★</option>
+						</select>
+						<span class="text-danger small float-left" th:if="${#fields.hasErrors('priority')}" th:errors="*{priority}"></span>
+					</div>
+				</div>
+				
+				<button class="btn btn-outline-secondary" type="submit">登録</button>
+			</form>
+		</div>
+	</div>
 </body>
 </html>

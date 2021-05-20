@@ -21,40 +21,72 @@ public class TodoConroller {
   @Autowired
   private TodoService service;
 
-  //一覧
+  /**
+   * 一覧表示
+   * @param model
+   * @return
+   */
+
   @GetMapping
   public String index(Model model) {
     model.addAttribute("todos", service.searchAll());
     return "index";
   }
 
-  // 追加画面を表示
+
+  /**
+   * 追加画面の表示
+   * @param model
+   * @param todo
+   * @return
+   */
+
   @GetMapping(value = "/add")
   public String getAdd(Model model, Todo todo) {
     return "todo/add";
   }
 
-  // 新規データを追加
+  
+  /**
+   * データの追加
+   * @param todo
+   * @param result
+   * @param model
+   * @return
+   */
+
   @PostMapping(value = "/add")
   public String insert(@Validated Todo todo, BindingResult result, Model model) {
-    
     if(result.hasErrors()) {
       return "todo/add";
     }
-    
     service.insert(todo);
     model.addAttribute("todo", todo);
     return "redirect:/todo";
   }
 
-  // 更新画面の表示
+  /**
+   * 更新画面の表示
+   * @param id
+   * @param model
+   * @return
+   */
+
   @GetMapping(value = "/update/{id}")
   public String getUpdate(@PathVariable int id, Model model) {
     model.addAttribute("todo", service.findOne(id));
     return "todo/update";
   }
 
-  // データを更新
+  /**
+   * データを更新
+   * @param id
+   * @param todo
+   * @param result
+   * @param model
+   * @return
+   */
+
   @PutMapping(value = "/update/{id}")
   public String update(@PathVariable int id, @Validated Todo todo, BindingResult result, Model model) {
     if(result.hasErrors()) {
@@ -65,14 +97,25 @@ public class TodoConroller {
     return "redirect:/todo";
   }
 
-  // 確認画面の表示
+  /**
+   * 確認画面の表示
+   * @param id
+   * @param model
+   * @return
+   */
+
   @GetMapping(value = "/confirm/{id}")
   public String getConfirm(@PathVariable int id, Model model) {
     model.addAttribute("todo", service.findOne(id));
     return "todo/confirm";
   }
 
-  // データを削除
+  /**
+   * データを削除
+   * @param id
+   * @return
+   */
+
   @DeleteMapping(value = "/confirm/{id}")
   public String delete(@PathVariable int id) {
     service.delete(id);

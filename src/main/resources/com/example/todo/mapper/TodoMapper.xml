@@ -5,30 +5,57 @@
 <mapper namespace="com.example.todo.mapper.TodoMapper">
 
 	<select id="selectAll" resultType="com.example.todo.domain.Todo">
-		SELECT *
-		FROM todo
-		ORDER BY priority;
+		SELECT
+		  *
+		FROM
+		  todo
+		;
 	</select>
 
 	<select id="findOne" resultType="com.example.todo.domain.Todo">
-		SELECT *
-		FROM todo
-		WHERE id = #{id};
+		SELECT
+		  *
+		FROM
+		  todo
+		WHERE
+		  id  =  #{id}
+		;
 	</select>
 
 	<insert id="insert" parameterType="com.example.todo.domain.Todo">
-		INSERT INTO todo (id,title,deadline,priority)
-		VALUES(#{id},#{title},#{deadline},#{priority});
+		INSERT INTO
+		  todo(
+		  id
+		, title
+		, deadline,priority
+		)
+		VALUES(
+		  #{id}
+		, #{title}
+		, #{deadline}
+		, #{priority}
+		)
+		;
 	</insert>
 
 	<update id="update">
-		UPDATE todo
-		SET title = #{title},deadline = #{deadline},priority = #{priority}
-		WHERE id = #{id};
+		UPDATE
+		  todo
+		SET
+		  title  =  #{title}
+		, deadline  =  #{deadline}
+		, priority  =  #{priority}
+		WHERE
+		  id =  #{id}
+		;
 	</update>
 
 	<delete id="delete">
-		DELETE FROM todo
-		WHERE id = #{id};
+		DELETE
+		FROM
+		  todo
+		WHERE
+		  id  =  #{id}
+		;
 	</delete>
 </mapper>
