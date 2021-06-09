@@ -26,7 +26,6 @@ public class TodoConroller {
    * @param model
    * @return
    */
-
   @GetMapping
   public String index(Model model) {
     model.addAttribute("todos", service.searchAll());
@@ -40,7 +39,6 @@ public class TodoConroller {
    * @param todo
    * @return
    */
-
   @GetMapping(value = "/add")
   public String getAdd(Model model, Todo todo) {
     return "todo/add";
@@ -54,7 +52,6 @@ public class TodoConroller {
    * @param model
    * @return
    */
-
   @PostMapping(value = "/add")
   public String insert(@Validated Todo todo, BindingResult result, Model model) {
     if(result.hasErrors()) {
@@ -71,7 +68,6 @@ public class TodoConroller {
    * @param model
    * @return
    */
-
   @GetMapping(value = "/update/{id}")
   public String getUpdate(@PathVariable int id, Model model) {
     model.addAttribute("todo", service.findOne(id));
@@ -86,7 +82,6 @@ public class TodoConroller {
    * @param model
    * @return
    */
-
   @PutMapping(value = "/update/{id}")
   public String update(@PathVariable int id, @Validated Todo todo, BindingResult result, Model model) {
     if(result.hasErrors()) {
@@ -103,7 +98,6 @@ public class TodoConroller {
    * @param model
    * @return
    */
-
   @GetMapping(value = "/confirm/{id}")
   public String getConfirm(@PathVariable int id, Model model) {
     model.addAttribute("todo", service.findOne(id));
@@ -115,7 +109,6 @@ public class TodoConroller {
    * @param id
    * @return
    */
-
   @DeleteMapping(value = "/confirm/{id}")
   public String delete(@PathVariable int id) {
     service.delete(id);
