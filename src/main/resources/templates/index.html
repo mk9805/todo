@@ -2,24 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}">
 <title>TodoApp</title>
 </head>
 <body>
-<h1>Todo</h1>
-<table>
-  <tr>
-    <th>ID</th>
-    <th>やること</th>
-    <th>期限</th>
-  </tr>
-  <tr th:each="todo : ${todos}">
-    <td th:text="${todo.id}"></td>
-    <td th:text="${todo.title}"></td>
-    <td th:text="${todo.deadLine}"></td>
-  </tr>
-</table>
-<br></br>
-<a th:href="@{/todo/add}">追加する</a>
-
+	<div class="container">
+		<h2 class="m-3">Todo一覧</h2>
+		<a class="btn btn-light ml-3" th:href="@{/todo/add}">追加する</a>
+		<table class="table table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">No</th>
+					<th scope="col">やること</th>
+					<th scope="col">期限</th>
+					<th scope="col">優先順位</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="todo:${todos}" th:object="${todo}">
+					<td scope="row" th:text=*{id}></td>
+					<td th:text=*{title}></td>
+					<td th:text=*{deadline}></td>
+					<td th:switch="*{priority}">
+						<p class="text-primary" th:case="1">★</p>
+						<p class="text-primary" th:case="2">★★</p>
+						<p class="text-primary" th:case="3">★★★</p>
+						<p th:case="*"></p>
+					</td>
+					<td class="float-right">
+						<a class="btn btn-secondary" th:href="@{/todo/update/{id}(id=*{id})}">変更</a>
+						<a class="btn btn-secondary" th:href="@{/todo/confirm/{id}(id=*{id})}">削除</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>

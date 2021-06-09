@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}">
-<title>追加</title>
+<title>更新</title>
 </head>
 <body>
 	<div class="card text-center w-75">
-		<div class="card-header">以下の内容を追加</div>
+		<div class="card-header">内容を変更</div>
 		<div class="card-body">
-			<form th:action="add" th:method="post" th:object="${todo}">
+			<form th:action="@{/todo/update/{id}(id=*{id})}" th:method="put" th:object="${todo}">
 
 				<div class="form-group row">
 					<label for="title" class="col-sm-3 col-form-label">やること</label>
@@ -40,7 +40,7 @@
 					</div>
 				</div>
 				
-				<button class="btn btn-outline-secondary" type="submit">登録</button>
+				<button class="btn btn-outline-secondary" type="submit">更新</button>
 			</form>
 		</div>
 	</div>

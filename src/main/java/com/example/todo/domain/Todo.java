@@ -1,37 +1,48 @@
 package com.example.todo.domain;
 
-
-
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-
+import javax.validation.constraints.NotBlank;
 
 public class Todo {
 
   private int id;
+
+  @NotBlank(message = "入力してください")
   private String title;
-  @DateTimeFormat(pattern="yyyy-MM-dd")
-  private Date deadLine;
+
+  @NotBlank(message = "入力してください")
+  private String deadline;
   
+  @NotBlank(message = "選択してください")
+  private String priority;
+
   public int getId() {
     return id;
   }
+
   public void setId(int id) {
     this.id = id;
   }
+
   public String getTitle() {
     return title;
   }
+
   public void setTitle(String title) {
     this.title = title;
   }
-  public Date getDeadLine() {
-    return deadLine;
+
+  public String getDeadline() {
+    return deadline;
   }
-  public void setDeadLine(Date deadLine) {
-    this.deadLine=deadLine;
+
+  public void setDeadline(String deadline) {
+    this.deadline = deadline;
   }
-  
+  public String getPriority() {
+    return priority;
+  }
+
+  public void setPriority(String priority) {
+    this.priority = priority;
+  }
 }

@@ -9,8 +9,18 @@ import com.example.todo.domain.Todo;
 @Mapper
 public interface TodoMapper {
 
-  //全件取得
+  // 全件取得
   public List<Todo> selectAll();
-  //データの追加
-  public void insertTodo(Todo todo);
+
+  // １件取得
+  public Todo findOne(int id);
+
+  // 追加
+  public void insert(Todo todo);
+
+  // 更新
+  public void update(Todo todo);
+
+  // 削除
+  public void delete(int id);
 }
