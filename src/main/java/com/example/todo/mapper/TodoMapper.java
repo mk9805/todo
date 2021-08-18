@@ -13,7 +13,7 @@ public interface TodoMapper {
   public List<Todo> selectAll();
 
   // １件取得
-  public Todo findOne(int id);
+  public Todo findOne(int taskId);
 
   // 追加
   public void insert(Todo todo);
@@ -22,5 +22,5 @@ public interface TodoMapper {
   public void update(Todo todo);
 
   // 削除
-  public void delete(int id);
+  public void delete(int taskId);
 }

@@ -1,6 +1,7 @@
 package com.example.todo.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +31,8 @@ public class TodoService {
    * @param id
    */
   @Transactional
-  public Todo findOne(int id) {
-    return mapper.findOne(id);
+  public Todo findOne(int taskId) {
+    return mapper.findOne(taskId);
   }
 
   /**
@@ -53,11 +54,11 @@ public class TodoService {
   }
 
   /**
-   * 更新
+   * 削除
    * @param id
    */
   @Transactional
-  public void delete(int id) {
-    mapper.delete(id);
+  public void delete(int taskId) {
+    mapper.delete(taskId);
   }
 }

@@ -4,13 +4,35 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.todo.mapper.TodoMapper">
 
-	<select id="selectAll" resultType="com.example.todo.domain.Todo">
+	<select id="selectAll" resultMap="todoMap">
 		SELECT
-		  *
+		  todo.task_id,
+		  todo.title,
+		  todo.deadline,
+		  todo.priority,
+		  status.state
 		FROM
 		  todo
+		INNER JOIN status
+		ON todo.state_id = status.state_id
+		ORDER BY todo.deadline,todo.priority desc
 		;
 	</select>
+	
+	<resultMap id="todoMap" type="com.example.todo.domain.Todo" >
+		<id property="taskId" column="task_id"/>
+		<result property="title" column="title"/>
+		<result property="deadline" column="deadline"/>
+		<result property="priority" column="priority"/>
+		<result property="stateId" column="state_id"/>
+		<association property="status" resultMap="statusMap"/>
+	</resultMap>
+	<resultMap id ="statusMap" type="com.example.todo.domain.Status">
+		<result property="stateId" column="state_id"/>
+		<result property="state" column="state"/>
+	</resultMap>	
+		
+	
 
 	<select id="findOne" resultType="com.example.todo.domain.Todo">
 		SELECT
@@ -18,35 +40,35 @@
 		FROM
 		  todo
 		WHERE
-		  id  =  #{id}
+		  task_id = #{taskId}
 		;
 	</select>
 
 	<insert id="insert" parameterType="com.example.todo.domain.Todo">
-		INSERT INTO
-		  todo(
-		  id
-		, title
-		, deadline,priority
+		INSERT INTO todo(
+			title,
+			deadline,
+			priority,
+			state_id
 		)
 		VALUES(
-		  #{id}
-		, #{title}
-		, #{deadline}
-		, #{priority}
+		  #{title},
+		  #{deadline},
+		  #{priority},
+		  #{stateId}
 		)
 		;
 	</insert>
 
-	<update id="update">
-		UPDATE
-		  todo
+	<update id="update" parameterType="com.example.todo.domain.Todo">
+		UPDATE todo
 		SET
-		  title  =  #{title}
-		, deadline  =  #{deadline}
-		, priority  =  #{priority}
+			title = #{title},
+			deadline = #{deadline},
+			priority = #{priority},
+			state_id = #{stateId} 
 		WHERE
-		  id =  #{id}
+			task_id = #{taskId}
 		;
 	</update>
 
@@ -55,7 +77,7 @@
 		FROM
 		  todo
 		WHERE
-		  id  =  #{id}
+		  task_id = #{taskId}
 		;
 	</delete>
 </mapper>

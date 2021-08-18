@@ -7,33 +7,39 @@
 </head>
 <body>
 	<div class="container">
-		<h2 class="m-3">Todo一覧</h2>
-		<a class="btn btn-light ml-3" th:href="@{/todo/add}">追加する</a>
+		<h1 class="text-center text-secondary mt-5">TodoList</h1>
+			<a class="btn btn-light my-2" th:href="@{/todo/add}">追加</a>
 		<table class="table table-hover">
-			<thead class="thead-dark">
+			<thead>
 				<tr>
-					<th scope="col">No</th>
-					<th scope="col">やること</th>
-					<th scope="col">期限</th>
-					<th scope="col">優先順位</th>
-					<th scope="col"></th>
+					<th style="width:40%">やること</th>
+					<th style="width:15%">期限</th>
+					<th style="width:15%">優先順位</th>
+					<th style="width:15%">状況</th>
+					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="todo:${todos}" th:object="${todo}">
-					<td scope="row" th:text=*{id}></td>
 					<td th:text=*{title}></td>
 					<td th:text=*{deadline}></td>
 					<td th:switch="*{priority}">
-						<p class="text-primary" th:case="1">★</p>
-						<p class="text-primary" th:case="2">★★</p>
-						<p class="text-primary" th:case="3">★★★</p>
+						<p class="text-primary" th:case=1>★</p>
+						<p class="text-primary" th:case=2>★★</p>
+						<p class="text-primary" th:case=3>★★★</p>
 						<p th:case="*"></p>
 					</td>
-					<td class="float-right">
-						<a class="btn btn-secondary" th:href="@{/todo/update/{id}(id=*{id})}">変更</a>
-						<a class="btn btn-secondary" th:href="@{/todo/confirm/{id}(id=*{id})}">削除</a>
+					<td th:text=*{status.state}></td>
+					<td>
+						<a class="btn btn-outline-primary btn-sm" th:href="@{/todo/update/{taskId}(taskId=*{taskId})}">変更</a>
 					</td>
+					<td>
+						<form th:action="@{/todo/{taskId}(taskId=*{taskId})}" th:method="delete">
+						<input class="btn btn-outline-secondary btn-sm" type="submit" value="削除"/>
+						</form>
+					</td>
+					
 				</tr>
 			</tbody>
 		</table>

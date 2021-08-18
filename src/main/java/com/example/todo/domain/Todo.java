@@ -1,48 +1,33 @@
 package com.example.todo.domain;
 
-import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import lombok.Data;
+
+@Data
 public class Todo {
 
-  private int id;
+  private int taskId;
 
-  @NotBlank(message = "入力してください")
+  @NotBlank(message="入力してください")
   private String title;
 
-  @NotBlank(message = "入力してください")
-  private String deadline;
+  @DateTimeFormat(pattern="yyyy-MM-dd")
+  @NotNull(message="入力してください")
+  @FutureOrPresent(message="今日以降の日付を入力してください")
+  private LocalDate deadline;
   
-  @NotBlank(message = "選択してください")
-  private String priority;
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getDeadline() {
-    return deadline;
-  }
-
-  public void setDeadline(String deadline) {
-    this.deadline = deadline;
-  }
-  public String getPriority() {
-    return priority;
-  }
-
-  public void setPriority(String priority) {
-    this.priority = priority;
-  }
+  
+  private int priority;
+  
+ 
+  private int stateId;
+  
+  private Status status;
 }

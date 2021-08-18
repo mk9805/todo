@@ -1,5 +1,7 @@
 package com.example.todo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.example.todo.domain.Todo;
 import com.example.todo.service.TodoService;
 
@@ -28,7 +31,10 @@ public class TodoConroller {
    */
   @GetMapping
   public String index(Model model) {
-    model.addAttribute("todos", service.searchAll());
+	List<Todo> todos = service.searchAll();
+    model.addAttribute("todos",todos);
+    
+    System.out.println(todos);
     return "index";
   }
 
@@ -40,7 +46,8 @@ public class TodoConroller {
    * @return
    */
   @GetMapping(value = "/add")
-  public String getAdd(Model model, Todo todo) {
+  public String getAdd(Model model) {
+	model.addAttribute("todo", new Todo());
     return "todo/add";
   }
 
@@ -58,7 +65,6 @@ public class TodoConroller {
       return "todo/add";
     }
     service.insert(todo);
-    model.addAttribute("todo", todo);
     return "redirect:/todo";
   }
 
@@ -68,9 +74,14 @@ public class TodoConroller {
    * @param model
    * @return
    */
-  @GetMapping(value = "/update/{id}")
-  public String getUpdate(@PathVariable int id, Model model) {
-    model.addAttribute("todo", service.findOne(id));
+  @GetMapping(value = "/update/{taskId}")
+  public String getUpdate(@PathVariable int taskId, Model model) {
+	
+	Todo todo = service.findOne(taskId);
+	todo.setTaskId(taskId);
+
+    model.addAttribute("todo",todo);
+    
     return "todo/update";
   }
 
@@ -82,26 +93,14 @@ public class TodoConroller {
    * @param model
    * @return
    */
-  @PutMapping(value = "/update/{id}")
-  public String update(@PathVariable int id, @Validated Todo todo, BindingResult result, Model model) {
+  @PutMapping(value = "/update/{taskId}")
+  public String update(@PathVariable int taskId,@Validated Todo todo, BindingResult result, Model model) {
     if(result.hasErrors()) {
+    	
       return "todo/update";
     }
     service.update(todo);
-    model.addAttribute("todo", todo);
     return "redirect:/todo";
-  }
-
-  /**
-   * 確認画面の表示
-   * @param id
-   * @param model
-   * @return
-   */
-  @GetMapping(value = "/confirm/{id}")
-  public String getConfirm(@PathVariable int id, Model model) {
-    model.addAttribute("todo", service.findOne(id));
-    return "todo/confirm";
   }
 
   /**
@@ -109,9 +108,10 @@ public class TodoConroller {
    * @param id
    * @return
    */
-  @DeleteMapping(value = "/confirm/{id}")
-  public String delete(@PathVariable int id) {
-    service.delete(id);
+  @DeleteMapping(value = "/{taskId}")
+  public String delete(@PathVariable int taskId) {
+	  
+    service.delete(taskId);
     return "redirect:/todo";
   }
 }
