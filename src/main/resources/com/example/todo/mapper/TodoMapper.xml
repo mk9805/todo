@@ -13,6 +13,8 @@
 		  status.state
 		FROM
 		  todo
+		INNER JOIN users
+		ON todo.user_id = #{users.id}
 		INNER JOIN status
 		ON todo.state_id = status.state_id
 		ORDER BY todo.deadline,todo.priority desc
@@ -21,6 +23,7 @@
 	
 	<resultMap id="todoMap" type="com.example.todo.domain.Todo" >
 		<id property="taskId" column="task_id"/>
+		<result property="userId" column="user_id"/>
 		<result property="title" column="title"/>
 		<result property="deadline" column="deadline"/>
 		<result property="priority" column="priority"/>
@@ -46,12 +49,14 @@
 
 	<insert id="insert" parameterType="com.example.todo.domain.Todo">
 		INSERT INTO todo(
+			user_id,
 			title,
 			deadline,
 			priority,
 			state_id
 		)
 		VALUES(
+		  #{userId},
 		  #{title},
 		  #{deadline},
 		  #{priority},

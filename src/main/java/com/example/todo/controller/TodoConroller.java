@@ -3,6 +3,7 @@ package com.example.todo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,27 +16,27 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.todo.domain.Todo;
+import com.example.todo.domain.User;
 import com.example.todo.service.TodoService;
 
-@RequestMapping(value = "/todo")
+
 @Controller
 public class TodoConroller {
 
   @Autowired
-  private TodoService service;
-
+  private TodoService todoservice;
+  
   /**
    * 一覧表示
    * @param model
    * @return
    */
-  @GetMapping
-  public String index(Model model) {
-	List<Todo> todos = service.searchAll();
-    model.addAttribute("todos",todos);
-    
-    System.out.println(todos);
-    return "index";
+  @RequestMapping("/todo")
+  public String index(@AuthenticationPrincipal User user, Model model ) {
+	  
+	  List<Todo> todos = todoservice.searchAll(user.getId());
+	  model.addAttribute("todos",todos);
+	  return "todo/index";
   }
 
 
@@ -45,7 +46,7 @@ public class TodoConroller {
    * @param todo
    * @return
    */
-  @GetMapping(value = "/add")
+  @GetMapping(value = "/todo/add")
   public String getAdd(Model model) {
 	model.addAttribute("todo", new Todo());
     return "todo/add";
@@ -59,12 +60,13 @@ public class TodoConroller {
    * @param model
    * @return
    */
-  @PostMapping(value = "/add")
-  public String insert(@Validated Todo todo, BindingResult result, Model model) {
+  @PostMapping(value = "/todo/add")
+  public String insert(@Validated Todo todo, BindingResult result, Model model,@AuthenticationPrincipal User user) {
     if(result.hasErrors()) {
       return "todo/add";
     }
-    service.insert(todo);
+    todo.setUserId(user.getId());
+    todoservice.insert(todo);
     return "redirect:/todo";
   }
 
@@ -74,10 +76,10 @@ public class TodoConroller {
    * @param model
    * @return
    */
-  @GetMapping(value = "/update/{taskId}")
+  @GetMapping(value = "/todo/update/{taskId}")
   public String getUpdate(@PathVariable int taskId, Model model) {
 	
-	Todo todo = service.findOne(taskId);
+	Todo todo = todoservice.findOne(taskId);
 	todo.setTaskId(taskId);
 
     model.addAttribute("todo",todo);
@@ -93,13 +95,13 @@ public class TodoConroller {
    * @param model
    * @return
    */
-  @PutMapping(value = "/update/{taskId}")
+  @PutMapping(value = "/todo/update/{taskId}")
   public String update(@PathVariable int taskId,@Validated Todo todo, BindingResult result, Model model) {
     if(result.hasErrors()) {
     	
       return "todo/update";
     }
-    service.update(todo);
+    todoservice.update(todo);
     return "redirect:/todo";
   }
 
@@ -108,10 +110,10 @@ public class TodoConroller {
    * @param id
    * @return
    */
-  @DeleteMapping(value = "/{taskId}")
+  @DeleteMapping(value = "/todo/{taskId}")
   public String delete(@PathVariable int taskId) {
 	  
-    service.delete(taskId);
+    todoservice.delete(taskId);
     return "redirect:/todo";
   }
 }

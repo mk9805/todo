@@ -7,8 +7,14 @@
 </head>
 <body>
 	<div class="container">
+		<div class="text-right">
+				<form th:action="@{/logout}" th:method="post">
+				<button  class="btn btn-outline-success btn-sm my-2" >ログアウト</button>
+				</form>
+		</div>
 		<h1 class="text-center text-secondary mt-5">TodoList</h1>
-			<a class="btn btn-light my-2" th:href="@{/todo/add}">追加</a>
+			
+			<a class="btn btn-outline-dark btn-sm my-2" th:href="@{/todo/add}">追加</a>
 		<table class="table table-hover">
 			<thead>
 				<tr>

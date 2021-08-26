@@ -13,6 +13,8 @@ import lombok.Data;
 @Data
 public class Todo {
 
+  private int userId;
+	
   private int taskId;
 
   @NotBlank(message="入力してください")

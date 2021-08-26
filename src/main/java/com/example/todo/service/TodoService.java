@@ -21,8 +21,8 @@ public class TodoService {
    * 全件取得
    *
    */
-  public List<Todo> searchAll() {
-    List<Todo> list = mapper.selectAll();
+  public List<Todo> searchAll(int userId) {
+    List<Todo> list = mapper.selectAll(userId);
     return list;
   }
 

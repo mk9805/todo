@@ -10,7 +10,7 @@ import com.example.todo.domain.Todo;
 public interface TodoMapper {
 
   // 全件取得
-  public List<Todo> selectAll();
+  public List<Todo> selectAll(int userId);
 
   // １件取得
   public Todo findOne(int taskId);
